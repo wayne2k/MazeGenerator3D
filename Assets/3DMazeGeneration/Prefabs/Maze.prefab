@@ -43,7 +43,7 @@ MonoBehaviour:
     x: 20
     z: 20
   cellPrefab: {fileID: 11469928, guid: 253e5ec6790d9444f918e72a2c534785, type: 2}
-  generationStepDelay: .00999999978
+  generationStepDelay: 0
   passagePrefab: {fileID: 11455874, guid: ac4230022472fde469f9ae23032e9038, type: 2}
   wallPrefab: {fileID: 11474646, guid: 4cccd2507f9001b4f95920658768d5b9, type: 2}
 --- !u!1001 &100100000
