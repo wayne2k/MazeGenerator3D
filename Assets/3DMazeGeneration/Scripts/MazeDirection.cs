@@ -8,22 +8,22 @@ public enum MazeDirection {
 }
 
 public static class MazeDirections {
-	
+
 	public const int Count = 4;
-	
+
 	public static MazeDirection RandomValue {
 		get {
 			return (MazeDirection)Random.Range(0, Count);
 		}
 	}
-	
+
 	private static MazeDirection[] opposites = {
 		MazeDirection.South,
 		MazeDirection.West,
 		MazeDirection.North,
 		MazeDirection.East
 	};
-	
+
 	public static MazeDirection GetOpposite (this MazeDirection direction) {
 		return opposites[(int)direction];
 	}
@@ -38,7 +38,7 @@ public static class MazeDirections {
 	public static IntVector2 ToIntVector2 (this MazeDirection direction) {
 		return vectors[(int)direction];
 	}
-	
+
 	private static Quaternion[] rotations = {
 		Quaternion.identity,
 		Quaternion.Euler(0f, 90f, 0f),

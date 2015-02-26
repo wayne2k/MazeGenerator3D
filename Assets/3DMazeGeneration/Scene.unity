@@ -98,10 +98,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 336064956}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36e76672f9d94fc46ae446e5607b1747, type: 3}
+  m_Script: {fileID: 11500000, guid: cae0fcacd7d8c464bb488d4784e2d893, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mazePrefab: {fileID: 11450976, guid: d25c5ffc7125775489892fa14e5ccb53, type: 2}
+  mazePrefab: {fileID: 11400000, guid: a2395bb8a91944f21b621f2614d6db99, type: 2}
 --- !u!4 &336064958
 Transform:
   m_ObjectHideFlags: 0
