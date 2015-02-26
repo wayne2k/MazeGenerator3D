@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
-using System.Collections;
 
-public class MazeCell : MonoBehaviour 
-{
+public class MazeCell : MonoBehaviour {
+	
 	public IntVector2 coordinates;
-
+	
 	private MazeCellEdge[] edges = new MazeCellEdge[MazeDirections.Count];
-
+	
 	private int initializedEdgeCount;
 	
 	public bool IsFullyInitialized {
@@ -15,15 +14,6 @@ public class MazeCell : MonoBehaviour
 		}
 	}
 	
-	public void SetEdge (MazeDirection direction, MazeCellEdge edge) {
-		edges[(int)direction] = edge;
-		initializedEdgeCount += 1;
-	}
-
-	public MazeCellEdge GetEdge (MazeDirection direction) {
-		return edges[(int)direction];
-	}
-
 	public MazeDirection RandomUninitializedDirection {
 		get {
 			int skips = Random.Range(0, MazeDirections.Count - initializedEdgeCount);
@@ -37,5 +27,14 @@ public class MazeCell : MonoBehaviour
 			}
 			throw new System.InvalidOperationException("MazeCell has no uninitialized directions left.");
 		}
+	}
+	
+	public MazeCellEdge GetEdge (MazeDirection direction) {
+		return edges[(int)direction];
+	}
+	
+	public void SetEdge (MazeDirection direction, MazeCellEdge edge) {
+		edges[(int)direction] = edge;
+		initializedEdgeCount += 1;
 	}
 }

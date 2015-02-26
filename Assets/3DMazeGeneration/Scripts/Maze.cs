@@ -2,20 +2,33 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Maze : MonoBehaviour 
-{
+public class Maze : MonoBehaviour {
+	
 	public IntVector2 size;
+	
 	public MazeCell cellPrefab;
-	public float generationStepDelay = 0.01f;
+	
+	public float generationStepDelay;
+	
 	public MazePassage passagePrefab;
 	public MazeWall wallPrefab;
-
+	
 	private MazeCell[,] cells;
-
+	
+	public IntVector2 RandomCoordinates {
+		get {
+			return new IntVector2(Random.Range(0, size.x), Random.Range(0, size.z));
+		}
+	}
+	
+	public bool ContainsCoordinates (IntVector2 coordinate) {
+		return coordinate.x >= 0 && coordinate.x < size.x && coordinate.z >= 0 && coordinate.z < size.z;
+	}
+	
 	public MazeCell GetCell (IntVector2 coordinates) {
 		return cells[coordinates.x, coordinates.z];
 	}
-
+	
 	public IEnumerator Generate () {
 		WaitForSeconds delay = new WaitForSeconds(generationStepDelay);
 		cells = new MazeCell[size.x, size.z];
@@ -26,7 +39,7 @@ public class Maze : MonoBehaviour
 			DoNextGenerationStep(activeCells);
 		}
 	}
-
+	
 	private void DoFirstGenerationStep (List<MazeCell> activeCells) {
 		activeCells.Add(CreateCell(RandomCoordinates));
 	}
@@ -49,15 +62,23 @@ public class Maze : MonoBehaviour
 			}
 			else {
 				CreateWall(currentCell, neighbor, direction);
-				activeCells.RemoveAt(currentIndex);
 			}
 		}
 		else {
 			CreateWall(currentCell, null, direction);
-			activeCells.RemoveAt(currentIndex);
 		}
 	}
-
+	
+	private MazeCell CreateCell (IntVector2 coordinates) {
+		MazeCell newCell = Instantiate(cellPrefab) as MazeCell;
+		cells[coordinates.x, coordinates.z] = newCell;
+		newCell.coordinates = coordinates;
+		newCell.name = "Maze Cell " + coordinates.x + ", " + coordinates.z;
+		newCell.transform.parent = transform;
+		newCell.transform.localPosition = new Vector3(coordinates.x - size.x * 0.5f + 0.5f, 0f, coordinates.z - size.z * 0.5f + 0.5f);
+		return newCell;
+	}
+	
 	private void CreatePassage (MazeCell cell, MazeCell otherCell, MazeDirection direction) {
 		MazePassage passage = Instantiate(passagePrefab) as MazePassage;
 		passage.Initialize(cell, otherCell, direction);
@@ -72,26 +93,5 @@ public class Maze : MonoBehaviour
 			wall = Instantiate(wallPrefab) as MazeWall;
 			wall.Initialize(otherCell, cell, direction.GetOpposite());
 		}
-	}
-
-	public IntVector2 RandomCoordinates {
-		get {
-			return new IntVector2(Random.Range(0, size.x), Random.Range(0, size.z));
-		}
-	}
-	
-	public bool ContainsCoordinates (IntVector2 coordinate) {
-		return coordinate.x >= 0 && coordinate.x < size.x && coordinate.z >= 0 && coordinate.z < size.z;
-	}
-
-	private MazeCell CreateCell (IntVector2 coordinates) {
-		MazeCell newCell = Instantiate(cellPrefab) as MazeCell;
-		cells[coordinates.x, coordinates.z] = newCell;
-		newCell.coordinates = coordinates;
-		newCell.name = "Maze Cell " + coordinates.x + ", " + coordinates.z;
-		newCell.transform.parent = transform;
-		newCell.transform.localPosition =
-			new Vector3(coordinates.x - size.x * 0.5f + 0.5f, 0f, coordinates.z - size.z * 0.5f + 0.5f);
-		return newCell;
 	}
 }
