@@ -4,6 +4,13 @@ public class Player : MonoBehaviour {
 
 	private MazeCell currentCell;
 
+	private MazeDirection currentDirection;
+	
+	private void Rotate (MazeDirection direction) {
+		transform.localRotation = direction.ToRotation();
+		currentDirection = direction;
+	}
+
 	public void SetLocation (MazeCell cell) {
 		currentCell = cell;
 		transform.localPosition = cell.transform.localPosition;
@@ -17,17 +24,23 @@ public class Player : MonoBehaviour {
 	}
 
 	private void Update () {
-		if (Input.GetKeyDown(KeyCode.UpArrow)) {
-			Move (MazeDirection.North);
+		if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) {
+			Move(currentDirection);
 		}
-		else if (Input.GetKeyDown(KeyCode.RightArrow)) {
-			Move (MazeDirection.East);
+		else if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow)) {
+			Move(currentDirection.GetNextClockwise());
 		}
-		else if (Input.GetKeyDown(KeyCode.DownArrow)) {
-			Move (MazeDirection.South);
+		else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) {
+			Move(currentDirection.GetOpposite());
 		}
-		else if (Input.GetKeyDown(KeyCode.LeftArrow)) {
-			Move (MazeDirection.West);
+		else if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow)) {
+			Move(currentDirection.GetNextCounterclockwise());
+		}
+		else if (Input.GetKeyDown(KeyCode.Q)) {
+			Rotate(currentDirection.GetNextCounterclockwise());
+		}
+		else if (Input.GetKeyDown(KeyCode.E)) {
+			Rotate(currentDirection.GetNextClockwise());
 		}
 	}
 }
