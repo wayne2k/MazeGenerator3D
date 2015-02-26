@@ -56,6 +56,13 @@ public class Maze : MonoBehaviour {
 		activeCells.Add(newCell);
 	}
 
+	private void CreatePassageInSameRoom (MazeCell cell, MazeCell otherCell, MazeDirection direction) {
+		MazePassage passage = Instantiate(passagePrefab) as MazePassage;
+		passage.Initialize(cell, otherCell, direction);
+		passage = Instantiate(passagePrefab) as MazePassage;
+		passage.Initialize(otherCell, cell, direction.GetOpposite());
+	}
+
 	private void DoNextGenerationStep (List<MazeCell> activeCells) {
 		int currentIndex = activeCells.Count - 1;
 		MazeCell currentCell = activeCells[currentIndex];
@@ -71,6 +78,9 @@ public class Maze : MonoBehaviour {
 				neighbor = CreateCell(coordinates);
 				CreatePassage(currentCell, neighbor, direction);
 				activeCells.Add(neighbor);
+			}
+			else if (currentCell.room == neighbor.room) {
+				CreatePassageInSameRoom(currentCell, neighbor, direction);
 			}
 			else {
 				CreateWall(currentCell, neighbor, direction);
